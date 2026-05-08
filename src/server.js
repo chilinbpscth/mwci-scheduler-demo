@@ -31,7 +31,7 @@ app.get("/api/state", async (_req, res) => {
   res.json(getState(db));
 });
 
-app.post("/api/admin/set", requireAdmin, async (req, res) => {
+app.post("/api/admin/config", requireAdmin, async (req, res) => {
   const body = req.body ?? {};
   setConfig(db, {
     classes: body.classes,
@@ -43,7 +43,7 @@ app.post("/api/admin/set", requireAdmin, async (req, res) => {
   res.json({ ok: true, state: getState(db) });
 });
 
-app.post("/api/locks/lock", async (req, res) => {
+app.post("/api/teacher/locks/lock", async (req, res) => {
   const { teacher, dateVal, className } = req.body ?? {};
   if (!teacher || !dateVal || !className) return res.status(400).json({ ok: false, error: "missing_fields" });
   try {
@@ -54,14 +54,14 @@ app.post("/api/locks/lock", async (req, res) => {
   res.json({ ok: true, locks: getState(db).locks });
 });
 
-app.post("/api/locks/unlock", async (req, res) => {
+app.post("/api/teacher/locks/unlock", async (req, res) => {
   const { lockId } = req.body ?? {};
   if (!lockId) return res.status(400).json({ ok: false, error: "missing_lockId" });
   releaseLock(db, { lockId });
   res.json({ ok: true, locks: getState(db).locks });
 });
 
-app.post("/api/generate", requireAdmin, async (_req, res) => {
+app.post("/api/admin/generate", requireAdmin, async (_req, res) => {
   const data = getState(db);
   const { schedule, teacherLoad, tbdErrors } = generateSchedule({
     classes: data.classes,
@@ -78,7 +78,7 @@ app.post("/api/generate", requireAdmin, async (_req, res) => {
   res.json({ ok: true, schedule, teacherLoad });
 });
 
-app.get("/api/export.xlsx", requireAdmin, async (_req, res) => {
+app.get("/api/admin/export.xlsx", requireAdmin, async (_req, res) => {
   const data = getState(db);
   const { schedule, tbdErrors } = generateSchedule({
     classes: data.classes,

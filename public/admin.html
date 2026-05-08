@@ -164,7 +164,7 @@
         try {
           $("status").textContent = "儲存中…";
           const body = JSON.parse($("json").value);
-          await api("POST", "/api/admin/set", body);
+          await api("POST", "/api/admin/config", body);
           $("status").textContent = "已儲存";
         } catch (e) {
           $("status").textContent = "儲存失敗（JSON 格式可能錯）";
@@ -179,7 +179,7 @@
         try {
           $("status").textContent = "生成中…";
           const state = await api("GET", "/api/state");
-          const out = await api("POST", "/api/generate");
+          const out = await api("POST", "/api/admin/generate");
           renderPreviewTable(state, out.schedule);
           $("previewRaw").textContent = JSON.stringify(out.schedule, null, 2);
           $("status").textContent = "已生成（預覽見下方）";
@@ -209,7 +209,7 @@
       $("btnExport").onclick = async () => {
         try {
           const adminKey = getAdminKey();
-          const res = await fetch("/api/export.xlsx", {
+          const res = await fetch("/api/admin/export.xlsx", {
             headers: adminKey ? { "x-admin-key": adminKey } : {}
           });
           if (!res.ok) throw new Error(await res.text());

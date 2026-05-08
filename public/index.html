@@ -128,9 +128,9 @@
               const teacherName = $("teacherSelect").value;
               if (!teacherName) return;
               if (lock) {
-                await api("POST", "/api/locks/unlock", { lockId: lock.id });
+                await api("POST", "/api/teacher/locks/unlock", { lockId: lock.id });
               } else {
-                await api("POST", "/api/locks/lock", { teacher: teacherName, dateVal: d.val, className: c.name });
+                await api("POST", "/api/teacher/locks/lock", { teacher: teacherName, dateVal: d.val, className: c.name });
               }
               await refresh();
             };
