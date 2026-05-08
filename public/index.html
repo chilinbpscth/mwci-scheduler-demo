@@ -4,56 +4,58 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>排課系統 Demo（免登入）</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/styles.css" />
   </head>
-  <body class="bg-slate-50 text-slate-900">
-    <div class="max-w-6xl mx-auto p-4">
-      <header class="bg-white border rounded-lg p-4 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+  <body class="page">
+    <div class="wrap">
+      <header class="header-bar">
         <div>
-          <div class="text-xl font-bold">排課系統 Demo（免登入）</div>
-          <div class="text-sm text-slate-500">老師揀位鎖定 → 系統補剩餘 → 下載 Excel</div>
+          <div class="header-bar__title">排課系統 Demo（免登入）</div>
+          <div class="header-bar__sub">老師揀位鎖定 → 系統補剩餘 → 下載 Excel</div>
         </div>
-        <div class="flex gap-2">
-          <a href="/admin.html" class="px-3 py-2 rounded border bg-slate-50 hover:bg-slate-100 text-sm">管理端</a>
-          <button id="btnExport" class="px-3 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white text-sm">下載 Excel</button>
+        <div class="header-bar__actions">
+          <a href="/admin.html" class="btn btn-secondary">管理端</a>
+          <button type="button" id="btnExport" class="btn btn-primary">下載 Excel</button>
         </div>
       </header>
 
-      <main class="grid grid-cols-1 lg:grid-cols-4 gap-4 mt-4">
-        <section class="lg:col-span-1 bg-white border rounded-lg p-4">
-          <div class="font-bold mb-2">老師（免登入）</div>
-          <label class="text-sm text-slate-600">選擇老師</label>
-          <select id="teacherSelect" class="w-full border rounded p-2 mt-1"></select>
-          <div class="text-xs text-slate-500 mt-2">點選右邊矩陣嘅格子鎖位。</div>
+      <main class="grid-demo">
+        <section class="card">
+          <div class="card__title">老師（免登入）</div>
+          <label class="label" for="teacherSelect">選擇老師</label>
+          <select id="teacherSelect" class="select"></select>
+          <p class="hint">點選右邊矩陣嘅格子鎖位。</p>
 
-          <div class="mt-4 border-t pt-4">
-            <div class="font-bold mb-2">操作</div>
-            <button id="btnRefresh" class="w-full px-3 py-2 rounded border bg-slate-50 hover:bg-slate-100 text-sm">刷新</button>
-            <button id="btnGenerate" class="w-full px-3 py-2 rounded bg-green-600 hover:bg-green-700 text-white text-sm mt-2">生成（補剩餘）</button>
+          <div class="card__divider">
+            <div class="card__title">操作</div>
+            <div class="btn-stack">
+              <button type="button" id="btnRefresh" class="btn btn-secondary btn-block">刷新</button>
+              <button type="button" id="btnGenerate" class="btn btn-success btn-block">生成（補剩餘）</button>
+            </div>
           </div>
 
-          <div class="mt-4 border-t pt-4">
-            <div class="font-bold mb-2">提示</div>
-            <ul class="text-sm text-slate-600 list-disc pl-5 space-y-1">
+          <div class="card__divider">
+            <div class="card__title">提示</div>
+            <ul class="tips">
               <li>已被鎖定嘅格會顯示老師名。</li>
               <li>生成後只會為未鎖定位分配。</li>
             </ul>
           </div>
         </section>
 
-        <section class="lg:col-span-3 bg-white border rounded-lg p-4 overflow-x-auto">
-          <div class="flex items-center justify-between">
-            <div class="font-bold">空格矩陣</div>
-            <div id="status" class="text-sm text-slate-500"></div>
+        <section class="card">
+          <div class="matrix-toolbar">
+            <div class="card__title" style="margin: 0">空格矩陣</div>
+            <div id="status" class="status"></div>
           </div>
-          <div class="mt-3">
-            <table class="min-w-full border text-sm" id="matrix"></table>
+          <div class="table-scroll">
+            <table class="data-table" id="matrix"></table>
           </div>
         </section>
 
-        <section class="lg:col-span-4 bg-white border rounded-lg p-4">
-          <div class="font-bold mb-2">生成預覽（簡化）</div>
-          <pre id="preview" class="text-xs bg-slate-900 text-slate-50 p-3 rounded overflow-x-auto"></pre>
+        <section class="card grid-demo__full">
+          <div class="card__title">生成預覽（簡化）</div>
+          <pre id="preview" class="preview-pre"></pre>
         </section>
       </main>
     </div>
@@ -68,7 +70,9 @@
           body: body ? JSON.stringify(body) : undefined,
         });
         if (!res.ok) throw new Error(await res.text());
-        return await res.json();
+        const ct = res.headers.get("content-type") || "";
+        if (ct.includes("application/json")) return await res.json();
+        return await res.text();
       }
 
       function lockFor(state, dateVal, className) {
@@ -85,7 +89,15 @@
 
         const thead = document.createElement("thead");
         const hr = document.createElement("tr");
-        hr.innerHTML = `<th class="border p-2 bg-slate-50 sticky left-0">日期</th>` + state.classes.map((c) => `<th class="border p-2 bg-slate-50">${c.name}</th>`).join("");
+        const th0 = document.createElement("th");
+        th0.className = "data-table__sticky";
+        th0.textContent = "日期";
+        hr.appendChild(th0);
+        for (const c of state.classes) {
+          const th = document.createElement("th");
+          th.textContent = c.name;
+          hr.appendChild(th);
+        }
         thead.appendChild(hr);
         table.appendChild(thead);
 
@@ -93,45 +105,54 @@
         for (const d of state.dates.filter((x) => x.selected !== false)) {
           const tr = document.createElement("tr");
           const dateCell = document.createElement("td");
-          dateCell.className = "border p-2 bg-slate-50 sticky left-0 font-bold";
+          dateCell.className = "data-table__sticky";
           dateCell.textContent = `${d.val} (${d.weekday})`;
           tr.appendChild(dateCell);
 
           for (const c of state.classes) {
             const td = document.createElement("td");
-            td.className = "border p-2 align-top";
             const t = topicFor(state, d.val, c.name);
             const lock = lockFor(state, d.val, c.name);
             td.style.background = t.color || "#ffffff";
 
             const content = document.createElement("div");
-            content.className = "flex flex-col gap-1";
+            content.className = "matrix-cell-inner";
 
             const topic = document.createElement("div");
-            topic.className = "text-xs text-slate-700";
+            topic.className = "matrix-topic";
             topic.textContent = t.text || "";
             content.appendChild(topic);
 
             const teacher = document.createElement("div");
-            teacher.className = lock ? "text-sm font-bold text-blue-900" : "text-sm text-slate-400";
+            teacher.className = lock ? "matrix-lock matrix-lock--yes" : "matrix-lock matrix-lock--no";
             teacher.textContent = lock ? `已鎖：${lock.teacher}` : "未鎖";
             content.appendChild(teacher);
 
             const btn = document.createElement("button");
-            btn.className = lock
-              ? "mt-1 px-2 py-1 rounded border text-xs bg-white/70 hover:bg-white"
-              : "mt-1 px-2 py-1 rounded bg-blue-600 hover:bg-blue-700 text-white text-xs";
+            btn.type = "button";
+            btn.className = lock ? "btn btn-sm btn-secondary btn-matrix-unlock" : "btn btn-sm btn-primary";
             btn.textContent = lock ? "解除" : "鎖位";
 
             btn.onclick = async () => {
               const teacherName = $("teacherSelect").value;
-              if (!teacherName) return;
-              if (lock) {
-                await api("POST", "/api/locks/unlock", { lockId: lock.id });
-              } else {
-                await api("POST", "/api/locks/lock", { teacher: teacherName, dateVal: d.val, className: c.name });
+              if (!teacherName) {
+                $("status").textContent = "請先揀老師";
+                $("status").classList.add("status--error");
+                return;
               }
-              await refresh();
+              $("status").classList.remove("status--error");
+              try {
+                if (lock) {
+                  await api("POST", "/api/locks/unlock", { lockId: lock.id });
+                } else {
+                  await api("POST", "/api/locks/lock", { teacher: teacherName, dateVal: d.val, className: c.name });
+                }
+                await refresh();
+              } catch (e) {
+                $("status").textContent = "操作失敗（睇 console）";
+                $("status").classList.add("status--error");
+                console.error(e);
+              }
             };
             content.appendChild(btn);
 
@@ -144,6 +165,7 @@
       }
 
       async function refresh() {
+        $("status").classList.remove("status--error");
         $("status").textContent = "載入中…";
         const state = await api("GET", "/api/state");
 
@@ -153,24 +175,31 @@
         if (old) sel.value = old;
 
         renderMatrix(state);
-        $("status").textContent = `老師：${state.teachers.length}｜班別：${state.classes.length}｜日期：${state.dates.filter((d)=>d.selected!==false).length}`;
+        $("status").textContent = `老師：${state.teachers.length}｜班別：${state.classes.length}｜日期：${state.dates.filter((d) => d.selected !== false).length}`;
       }
 
-      $("btnRefresh").onclick = refresh;
+      $("btnRefresh").onclick = () => refresh().catch(onRefreshError);
       $("btnGenerate").onclick = async () => {
         $("preview").textContent = "生成中…";
-        const out = await api("POST", "/api/generate");
-        $("preview").textContent = JSON.stringify(out.schedule, null, 2);
+        try {
+          const out = await api("POST", "/api/generate");
+          $("preview").textContent = JSON.stringify(out.schedule, null, 2);
+        } catch (e) {
+          $("preview").textContent = String(e);
+          console.error(e);
+        }
       };
       $("btnExport").onclick = () => {
         window.location.href = "/api/export.xlsx";
       };
 
-      refresh().catch((e) => {
-        $("status").textContent = "載入失敗";
+      function onRefreshError(e) {
+        $("status").textContent = "載入失敗 — 請確認經伺服器開頁（例如 npm run dev），唔好用 file://";
+        $("status").classList.add("status--error");
         console.error(e);
-      });
+      }
+
+      refresh().catch(onRefreshError);
     </script>
   </body>
 </html>
-
