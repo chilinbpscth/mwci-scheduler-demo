@@ -142,8 +142,22 @@
             const teacher = document.createElement("div");
             const lockedBy = lockMap.get(`${row.dateVal}_${c.name}`);
             const isLocked = Boolean(lockedBy);
-            teacher.className = isLocked ? "text-sm font-bold text-blue-900" : "text-sm font-semibold text-slate-800";
-            teacher.textContent = cell?.teacher ? (isLocked ? `鎖位：${cell.teacher}` : `系統：${cell.teacher}`) : "";
+            teacher.className =
+              (isLocked ? "text-sm font-bold text-blue-900" : "text-sm font-semibold text-slate-800") +
+              " cursor-pointer underline decoration-dotted";
+            teacher.textContent = cell?.teacher ? (isLocked ? `鎖位：${cell.teacher}` : `系統：${cell.teacher}`) : "(按此修改)";
+            teacher.title = "按此修改老師";
+            teacher.onclick = async () => {
+              const current = cell?.teacher || "";
+              const next = prompt(`修改老師（${row.dateVal} ${c.name}）\n留空＝清除\n輸入 TBD ＝標記待定`, current);
+              if (next === null) return;
+              await api("POST", "/api/admin/preview/cell", { dateVal: row.dateVal, className: c.name, teacher: next });
+              const state2 = await api("GET", "/api/state");
+              const preview = await api("GET", "/api/admin/preview");
+              const latest = preview.latest?.schedule || [];
+              renderPreviewTable(state2, latest);
+              $("status").textContent = "已更新預覽";
+            };
 
             const badge = document.createElement("div");
             badge.className = "mt-1 text-[11px] text-slate-500";
@@ -180,8 +194,11 @@
           $("status").textContent = "生成中…";
           const state = await api("GET", "/api/state");
           const out = await api("POST", "/api/admin/generate");
-          renderPreviewTable(state, out.schedule);
-          $("previewRaw").textContent = JSON.stringify(out.schedule, null, 2);
+          // Load latest saved preview so edits/export operate on same version.
+          const preview = await api("GET", "/api/admin/preview");
+          const latest = preview.latest?.schedule || out.schedule;
+          renderPreviewTable(state, latest);
+          $("previewRaw").textContent = JSON.stringify(latest, null, 2);
           $("status").textContent = "已生成（預覽見下方）";
         } catch (e) {
           try {

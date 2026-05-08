@@ -2,7 +2,16 @@ import express from "express";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { openDb, getState, setConfig, createLock, releaseLock } from "./db.js";
+import {
+  openDb,
+  getState,
+  setConfig,
+  createLock,
+  releaseLock,
+  saveExport,
+  getLatestExport,
+  updateLatestExportCell
+} from "./db.js";
 import { generateSchedule } from "./scheduler.js";
 import { exportToExcelBuffer } from "./excel.js";
 
@@ -29,6 +38,19 @@ app.use(express.static(path.resolve(__dirname, "../public")));
 
 app.get("/api/state", async (_req, res) => {
   res.json(getState(db));
+});
+
+app.get("/api/admin/preview", requireAdmin, async (_req, res) => {
+  const latest = getLatestExport(db);
+  res.json({ ok: true, latest });
+});
+
+app.post("/api/admin/preview/cell", requireAdmin, async (req, res) => {
+  const { dateVal, className, teacher } = req.body ?? {};
+  if (!dateVal || !className) return res.status(400).json({ ok: false, error: "missing_fields" });
+  const next = updateLatestExportCell(db, { dateVal, className, teacher: String(teacher ?? "").trim() });
+  if (!next) return res.status(404).json({ ok: false, error: "no_export" });
+  res.json({ ok: true, latest: next });
 });
 
 app.post("/api/admin/config", requireAdmin, async (req, res) => {
@@ -75,28 +97,24 @@ app.post("/api/admin/generate", requireAdmin, async (_req, res) => {
   if (tbdErrors && tbdErrors.length > 0) {
     return res.status(409).json({ ok: false, error: "tbd_gate", tbdErrors });
   }
+  const exportId = saveExport(db, { schedule });
   res.json({ ok: true, schedule, teacherLoad });
 });
 
 app.get("/api/admin/export.xlsx", requireAdmin, async (_req, res) => {
   const data = getState(db);
-  const { schedule, tbdErrors } = generateSchedule({
-    classes: data.classes,
-    teachers: data.teachers,
-    dates: data.dates,
-    topics: data.topics,
-    specialTasks: data.specialTasks,
-    locks: data.locks,
-    baseTeacherLoad: {}
-  });
-  if (tbdErrors && tbdErrors.length > 0) {
-    return res.status(409).json({ ok: false, error: "tbd_gate", tbdErrors });
-  }
+  const latest = getLatestExport(db);
+  if (!latest) return res.status(409).json({ ok: false, error: "no_generated_preview" });
+  // Enforce TBD gate on the saved/edited preview.
+  const anyTbd = latest.schedule.some((r) =>
+    Object.values(r.assignments ?? {}).some((c) => c?.teacher === "TBD")
+  );
+  if (anyTbd) return res.status(409).json({ ok: false, error: "tbd_gate", tbdErrors: ["(預覽仍包含 TBD)"] });
 
   const buffer = await exportToExcelBuffer({
     classes: data.classes,
     teachers: data.teachers,
-    scheduleRows: schedule
+    scheduleRows: latest.schedule
   });
 
   res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");

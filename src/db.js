@@ -91,6 +91,12 @@ function migrate(db) {
       ref TEXT,
       createdAt TEXT NOT NULL
     );
+
+    CREATE TABLE IF NOT EXISTS exports (
+      id TEXT PRIMARY KEY,
+      createdAt TEXT NOT NULL,
+      schedule_json TEXT NOT NULL
+    );
   `);
 }
 
@@ -274,5 +280,35 @@ export function createLock(db, { teacher, dateVal, className }) {
 export function releaseLock(db, { lockId }) {
   const now = new Date().toISOString();
   db.prepare("UPDATE locks SET status='released', releasedAt=? WHERE id=?").run(now, lockId);
+}
+
+export function saveExport(db, { schedule }) {
+  const id = `${Date.now()}_${Math.random().toString(16).slice(2)}`;
+  const createdAt = new Date().toISOString();
+  db.prepare("INSERT INTO exports(id, createdAt, schedule_json) VALUES(?, ?, ?)").run(
+    id,
+    createdAt,
+    JSON.stringify(schedule ?? [])
+  );
+  return id;
+}
+
+export function getLatestExport(db) {
+  const row = db.prepare("SELECT id, createdAt, schedule_json FROM exports ORDER BY createdAt DESC LIMIT 1").get();
+  if (!row) return null;
+  return { id: row.id, createdAt: row.createdAt, schedule: JSON.parse(row.schedule_json || "[]") };
+}
+
+export function updateLatestExportCell(db, { dateVal, className, teacher }) {
+  const latest = getLatestExport(db);
+  if (!latest) return null;
+  const schedule = latest.schedule;
+  const row = schedule.find((r) => r.dateVal === dateVal);
+  if (!row) return latest;
+  row.assignments ??= {};
+  row.assignments[className] ??= { teacher: "", topic: "", color: "#ffffff", isFixed: false };
+  row.assignments[className].teacher = teacher;
+  db.prepare("UPDATE exports SET schedule_json=? WHERE id=?").run(JSON.stringify(schedule), latest.id);
+  return { ...latest, schedule };
 }
 
