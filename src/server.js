@@ -12,6 +12,16 @@ const __dirname = path.dirname(__filename);
 const app = express();
 app.use(express.json({ limit: "1mb" }));
 
+const ADMIN_KEY = process.env.ADMIN_KEY || "";
+function isAdmin(req) {
+  if (!ADMIN_KEY) return true; // demo default: if unset, allow (local convenience)
+  return req.header("x-admin-key") === ADMIN_KEY;
+}
+function requireAdmin(req, res, next) {
+  if (!isAdmin(req)) return res.status(403).json({ ok: false, error: "admin_only" });
+  next();
+}
+
 // Static frontend
 app.use(express.static(path.resolve(__dirname, "../public")));
 
@@ -20,7 +30,7 @@ app.get("/api/state", async (_req, res) => {
   res.json(data);
 });
 
-app.post("/api/admin/set", async (req, res) => {
+app.post("/api/admin/set", requireAdmin, async (req, res) => {
   const body = req.body ?? {};
   const next = await updateData((cur) => {
     // Minimal validation for demo
@@ -71,7 +81,7 @@ app.post("/api/locks/unlock", async (req, res) => {
   res.json({ ok: true, locks: next.locks });
 });
 
-app.post("/api/generate", async (_req, res) => {
+app.post("/api/generate", requireAdmin, async (_req, res) => {
   const data = await readData();
   const { schedule, teacherLoad } = generateSchedule({
     classes: data.classes,
@@ -85,7 +95,7 @@ app.post("/api/generate", async (_req, res) => {
   res.json({ ok: true, schedule, teacherLoad });
 });
 
-app.get("/api/export.xlsx", async (_req, res) => {
+app.get("/api/export.xlsx", requireAdmin, async (_req, res) => {
   const data = await readData();
   const { schedule } = generateSchedule({
     classes: data.classes,

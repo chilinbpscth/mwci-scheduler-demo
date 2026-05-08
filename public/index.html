@@ -11,11 +11,10 @@
       <header class="bg-white border rounded-lg p-4 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
         <div>
           <div class="text-xl font-bold">排課系統 Demo（免登入）</div>
-          <div class="text-sm text-slate-500">老師揀位鎖定 → 系統補剩餘 → 下載 Excel</div>
+          <div class="text-sm text-slate-500">老師只可揀位鎖定；生成/匯出由管理員處理</div>
         </div>
         <div class="flex gap-2">
           <a href="/admin.html" class="px-3 py-2 rounded border bg-slate-50 hover:bg-slate-100 text-sm">管理端</a>
-          <button id="btnExport" class="px-3 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white text-sm">下載 Excel</button>
         </div>
       </header>
 
@@ -29,7 +28,6 @@
           <div class="mt-4 border-t pt-4">
             <div class="font-bold mb-2">操作</div>
             <button id="btnRefresh" class="w-full px-3 py-2 rounded border bg-slate-50 hover:bg-slate-100 text-sm">刷新</button>
-            <button id="btnGenerate" class="w-full px-3 py-2 rounded bg-green-600 hover:bg-green-700 text-white text-sm mt-2">生成（補剩餘）</button>
           </div>
 
           <div class="mt-4 border-t pt-4">
@@ -52,8 +50,11 @@
         </section>
 
         <section class="lg:col-span-4 bg-white border rounded-lg p-4">
-          <div class="font-bold mb-2">生成預覽（簡化）</div>
-          <pre id="preview" class="text-xs bg-slate-900 text-slate-50 p-3 rounded overflow-x-auto"></pre>
+          <div class="font-bold">生成預覽</div>
+          <div class="text-sm text-slate-600 mt-2">
+            呢頁（老師端）唔提供生成/匯出。\n
+            請到 <a class="underline text-blue-700" href="/admin.html">管理端</a> 生成同下載 Excel。
+          </div>
         </section>
       </main>
     </div>
@@ -157,14 +158,7 @@
       }
 
       $("btnRefresh").onclick = refresh;
-      $("btnGenerate").onclick = async () => {
-        $("preview").textContent = "生成中…";
-        const out = await api("POST", "/api/generate");
-        $("preview").textContent = JSON.stringify(out.schedule, null, 2);
-      };
-      $("btnExport").onclick = () => {
-        window.location.href = "/api/export.xlsx";
-      };
+      // Teachers page intentionally has no generate/export.
 
       refresh().catch((e) => {
         $("status").textContent = "載入失敗";
