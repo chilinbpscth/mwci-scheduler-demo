@@ -2,7 +2,7 @@ import express from "express";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { readData, updateData } from "./store.js";
+import { openDb, getState, setConfig, createLock, releaseLock } from "./db.js";
 import { generateSchedule } from "./scheduler.js";
 import { exportToExcelBuffer } from "./excel.js";
 
@@ -11,6 +11,8 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(express.json({ limit: "1mb" }));
+
+const db = openDb();
 
 const ADMIN_KEY = process.env.ADMIN_KEY || "";
 function isAdmin(req) {
@@ -26,63 +28,41 @@ function requireAdmin(req, res, next) {
 app.use(express.static(path.resolve(__dirname, "../public")));
 
 app.get("/api/state", async (_req, res) => {
-  const data = await readData();
-  res.json(data);
+  res.json(getState(db));
 });
 
 app.post("/api/admin/set", requireAdmin, async (req, res) => {
   const body = req.body ?? {};
-  const next = await updateData((cur) => {
-    // Minimal validation for demo
-    return {
-      ...cur,
-      classes: body.classes ?? cur.classes,
-      teachers: body.teachers ?? cur.teachers,
-      dates: body.dates ?? cur.dates,
-      topics: body.topics ?? cur.topics,
-      specialTasks: body.specialTasks ?? cur.specialTasks
-    };
+  setConfig(db, {
+    classes: body.classes,
+    teachers: body.teachers,
+    dates: body.dates,
+    topics: body.topics,
+    specialTasks: body.specialTasks
   });
-  res.json({ ok: true, state: next });
+  res.json({ ok: true, state: getState(db) });
 });
 
 app.post("/api/locks/lock", async (req, res) => {
   const { teacher, dateVal, className } = req.body ?? {};
   if (!teacher || !dateVal || !className) return res.status(400).json({ ok: false, error: "missing_fields" });
-
-  const next = await updateData((cur) => {
-    // Unique lock per slot
-    const exists = cur.locks.find((l) => l.dateVal === dateVal && l.className === className && l.status === "locked");
-    if (exists) return cur;
-
-    const lock = {
-      id: `${Date.now()}_${Math.random().toString(16).slice(2)}`,
-      teacher,
-      dateVal,
-      className,
-      status: "locked",
-      createdAt: new Date().toISOString()
-    };
-
-    return { ...cur, locks: [...cur.locks, lock] };
-  });
-
-  res.json({ ok: true, locks: next.locks });
+  try {
+    createLock(db, { teacher, dateVal, className });
+  } catch (e) {
+    return res.status(409).json({ ok: false, error: "already_locked" });
+  }
+  res.json({ ok: true, locks: getState(db).locks });
 });
 
 app.post("/api/locks/unlock", async (req, res) => {
   const { lockId } = req.body ?? {};
   if (!lockId) return res.status(400).json({ ok: false, error: "missing_lockId" });
-
-  const next = await updateData((cur) => {
-    const locks = cur.locks.map((l) => (l.id === lockId ? { ...l, status: "released", releasedAt: new Date().toISOString() } : l));
-    return { ...cur, locks };
-  });
-  res.json({ ok: true, locks: next.locks });
+  releaseLock(db, { lockId });
+  res.json({ ok: true, locks: getState(db).locks });
 });
 
 app.post("/api/generate", requireAdmin, async (_req, res) => {
-  const data = await readData();
+  const data = getState(db);
   const { schedule, teacherLoad } = generateSchedule({
     classes: data.classes,
     teachers: data.teachers,
@@ -96,7 +76,7 @@ app.post("/api/generate", requireAdmin, async (_req, res) => {
 });
 
 app.get("/api/export.xlsx", requireAdmin, async (_req, res) => {
-  const data = await readData();
+  const data = getState(db);
   const { schedule } = generateSchedule({
     classes: data.classes,
     teachers: data.teachers,
@@ -114,7 +94,15 @@ app.get("/api/export.xlsx", requireAdmin, async (_req, res) => {
   });
 
   res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-  res.setHeader("Content-Disposition", 'attachment; filename="排課結果_demo.xlsx"');
+  // Node v20+ is strict about invalid header chars; keep ASCII filename,
+  // and provide RFC5987 encoded UTF-8 filename for browsers that support it.
+  const asciiName = "schedule_demo.xlsx";
+  const utf8Name = "排課結果_demo.xlsx";
+  const encoded = encodeURIComponent(utf8Name);
+  res.setHeader(
+    "Content-Disposition",
+    `attachment; filename="${asciiName}"; filename*=UTF-8''${encoded}`
+  );
   res.send(Buffer.from(buffer));
 });
 

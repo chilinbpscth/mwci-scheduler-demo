@@ -1,0 +1,1394 @@
+{
+  "meta": {
+    "generatedAt": "2026-05-08T08:03:19.406Z"
+  },
+  "classes": [
+    {
+      "name": "1A"
+    },
+    {
+      "name": "1B"
+    },
+    {
+      "name": "2A"
+    },
+    {
+      "name": "2B"
+    },
+    {
+      "name": "2C"
+    },
+    {
+      "name": "3A"
+    },
+    {
+      "name": "3B"
+    },
+    {
+      "name": "3C"
+    },
+    {
+      "name": "4A"
+    },
+    {
+      "name": "4B"
+    },
+    {
+      "name": "4C"
+    },
+    {
+      "name": "5A"
+    },
+    {
+      "name": "5B"
+    },
+    {
+      "name": "5C"
+    },
+    {
+      "name": "6A"
+    },
+    {
+      "name": "6B"
+    },
+    {
+      "name": "6C"
+    }
+  ],
+  "teachers": [
+    {
+      "name": "儀",
+      "assignments": {
+        "1A": "main",
+        "2B": "sub",
+        "3B": "main",
+        "4C": "main",
+        "6B": "main"
+      },
+      "specialties": [
+        "數學遊戲",
+        "魔力橋"
+      ]
+    },
+    {
+      "name": "凱",
+      "assignments": {
+        "4A": "main",
+        "5C": "main"
+      },
+      "specialties": [
+        "運動節奏",
+        "新興運動",
+        "課室遊戲",
+        "桌遊"
+      ]
+    },
+    {
+      "name": "劉",
+      "assignments": {
+        "1A": "main",
+        "2A": "sub",
+        "2B": "sub",
+        "5B": "main"
+      },
+      "specialties": [
+        "數學遊戲",
+        "魔力橋"
+      ]
+    },
+    {
+      "name": "周",
+      "assignments": {
+        "1B": "main",
+        "2B": "sub",
+        "6C": "main"
+      },
+      "specialties": [
+        "Phonics&Fun English Game"
+      ]
+    },
+    {
+      "name": "啓",
+      "assignments": {
+        "1A": "sub",
+        "2A": "sub",
+        "2C": "sub",
+        "3A": "main",
+        "3B": "sub",
+        "3C": "main",
+        "4B": "main"
+      },
+      "specialties": [
+        "Phonics&Fun English Game"
+      ]
+    },
+    {
+      "name": "威",
+      "assignments": {
+        "3C": "main",
+        "4A": "main",
+        "5C": "main"
+      },
+      "specialties": [
+        "數學遊戲",
+        "魔力橋"
+      ]
+    },
+    {
+      "name": "媚",
+      "assignments": {
+        "3A": "sub",
+        "3C": "main",
+        "5C": "sub",
+        "6A": "main"
+      },
+      "specialties": [
+        "Phonics&Fun English Game"
+      ]
+    },
+    {
+      "name": "嫻",
+      "assignments": {
+        "1A": "main",
+        "3A": "sub",
+        "3B": "sub",
+        "4C": "sub",
+        "5A": "main"
+      },
+      "specialties": [
+        "課室遊戲"
+      ]
+    },
+    {
+      "name": "廖",
+      "assignments": {
+        "1A": "main",
+        "4A": "main",
+        "4C": "sub",
+        "5A": "sub"
+      },
+      "specialties": [
+        "普通話活動",
+        "語文遊戲"
+      ]
+    },
+    {
+      "name": "志",
+      "assignments": {
+        "1A": "sub",
+        "1B": "sub",
+        "2A": "sub",
+        "3B": "sub",
+        "3C": "sub",
+        "4A": "sub",
+        "4B": "sub",
+        "4C": "sub",
+        "6A": "sub",
+        "6C": "main"
+      },
+      "specialties": [
+        "運動節奏",
+        "新興運動"
+      ]
+    },
+    {
+      "name": "文",
+      "assignments": {
+        "3A": "main",
+        "4C": "main",
+        "5B": "sub",
+        "5C": "sub",
+        "6A": "main",
+        "6C": "sub"
+      },
+      "specialties": [
+        "課室遊戲"
+      ]
+    },
+    {
+      "name": "曼",
+      "assignments": {
+        "2C": "main",
+        "3B": "sub",
+        "5B": "main",
+        "6A": "sub",
+        "6C": "sub"
+      },
+      "specialties": [
+        "普通話活動",
+        "語文遊戲"
+      ]
+    },
+    {
+      "name": "杜",
+      "assignments": {
+        "2A": "main",
+        "3B": "main",
+        "4B": "main"
+      },
+      "specialties": [
+        "Phonics&Fun English Game"
+      ]
+    },
+    {
+      "name": "楊",
+      "assignments": {
+        "1B": "main",
+        "4A": "sub",
+        "5A": "main",
+        "5B": "sub",
+        "6C": "sub"
+      },
+      "specialties": [
+        "普通話活動",
+        "語文遊戲"
+      ]
+    },
+    {
+      "name": "淑",
+      "assignments": {
+        "5A": "sub",
+        "5B": "main",
+        "6A": "main"
+      },
+      "specialties": [
+        "創意小手工",
+        "STEAM"
+      ]
+    },
+    {
+      "name": "礎",
+      "assignments": {
+        "1A": "sub",
+        "2B": "main",
+        "4B": "main",
+        "6A": "main"
+      },
+      "specialties": [
+        "創意小手工",
+        "STEAM"
+      ]
+    },
+    {
+      "name": "禤",
+      "assignments": {
+        "2B": "main",
+        "3B": "main"
+      },
+      "specialties": [
+        "課室遊戲"
+      ]
+    },
+    {
+      "name": "秀",
+      "assignments": {
+        "3A": "main",
+        "4B": "main",
+        "6B": "sub"
+      },
+      "specialties": [
+        "普通話活動",
+        "語文遊戲"
+      ]
+    },
+    {
+      "name": "素",
+      "assignments": {
+        "1B": "sub",
+        "2A": "main",
+        "2B": "sub",
+        "3A": "sub",
+        "4B": "sub",
+        "4C": "main"
+      },
+      "specialties": [
+        "桌遊"
+      ]
+    },
+    {
+      "name": "紫",
+      "assignments": {
+        "3C": "main",
+        "6C": "main"
+      },
+      "specialties": [
+        "創意小手工",
+        "STEAM"
+      ]
+    },
+    {
+      "name": "聶",
+      "assignments": {
+        "4A": "main",
+        "5A": "sub",
+        "6B": "sub"
+      },
+      "specialties": [
+        "運動節奏",
+        "新興運動"
+      ]
+    },
+    {
+      "name": "茵",
+      "assignments": {
+        "1A": "main",
+        "2A": "main",
+        "2B": "main",
+        "4C": "main",
+        "5A": "main"
+      },
+      "specialties": [
+        "創意小手工",
+        "STEAM"
+      ]
+    },
+    {
+      "name": "葉",
+      "assignments": {
+        "1A": "sub",
+        "1B": "sub",
+        "2A": "sub",
+        "2B": "sub",
+        "2C": "main",
+        "3A": "sub",
+        "3B": "sub",
+        "3C": "sub",
+        "4A": "sub",
+        "4B": "sub",
+        "4C": "main",
+        "5A": "sub",
+        "5B": "sub",
+        "5C": "sub",
+        "6A": "sub",
+        "6B": "sub",
+        "6C": "sub"
+      },
+      "specialties": [
+        "數學遊戲",
+        "魔力橋"
+      ]
+    },
+    {
+      "name": "袁",
+      "assignments": {
+        "2C": "sub",
+        "3C": "sub",
+        "4B": "sub",
+        "5A": "sub",
+        "5C": "main",
+        "6A": "sub",
+        "6B": "sub"
+      },
+      "specialties": [
+        "Phonics&Fun English Game"
+      ]
+    },
+    {
+      "name": "詠",
+      "assignments": {
+        "2B": "main",
+        "5B": "main",
+        "6B": "main"
+      },
+      "specialties": [
+        "桌遊"
+      ]
+    },
+    {
+      "name": "譚",
+      "assignments": {
+        "2A": "sub",
+        "3A": "main",
+        "3B": "sub",
+        "3C": "sub",
+        "6C": "main"
+      },
+      "specialties": [
+        "桌遊"
+      ]
+    },
+    {
+      "name": "趙",
+      "assignments": {
+        "1A": "sub",
+        "1B": "main",
+        "2A": "main",
+        "4B": "main"
+      },
+      "specialties": [
+        "課室遊戲"
+      ]
+    },
+    {
+      "name": "鄭",
+      "assignments": {
+        "2B": "sub",
+        "2C": "sub",
+        "3A": "sub",
+        "5A": "sub",
+        "5B": "sub",
+        "5C": "main",
+        "6B": "sub",
+        "6C": "sub"
+      },
+      "specialties": [
+        "運動節奏",
+        "新興運動"
+      ]
+    },
+    {
+      "name": "鄺",
+      "assignments": {
+        "1B": "main",
+        "3A": "sub",
+        "3C": "sub",
+        "5A": "main",
+        "5C": "sub"
+      },
+      "specialties": [
+        "數學遊戲",
+        "魔力橋"
+      ]
+    },
+    {
+      "name": "鈴",
+      "assignments": {
+        "1B": "main",
+        "3B": "main",
+        "4A": "sub",
+        "6B": "main"
+      },
+      "specialties": [
+        "普通話活動",
+        "語文遊戲"
+      ]
+    },
+    {
+      "name": "麥",
+      "assignments": {
+        "2C": "main",
+        "4C": "sub",
+        "6B": "main"
+      },
+      "specialties": [
+        "創意小手工",
+        "STEAM"
+      ]
+    }
+  ],
+  "dates": [
+    {
+      "val": "2025-09-01",
+      "display": "9/1",
+      "weekday": "一",
+      "selected": true
+    },
+    {
+      "val": "2025-09-05",
+      "display": "9/5",
+      "weekday": "五",
+      "selected": true
+    },
+    {
+      "val": "2025-09-08",
+      "display": "9/8",
+      "weekday": "一",
+      "selected": true
+    },
+    {
+      "val": "2025-09-12",
+      "display": "9/12",
+      "weekday": "五",
+      "selected": true
+    },
+    {
+      "val": "2025-09-15",
+      "display": "9/15",
+      "weekday": "一",
+      "selected": true
+    },
+    {
+      "val": "2025-09-19",
+      "display": "9/19",
+      "weekday": "五",
+      "selected": true
+    },
+    {
+      "val": "2025-09-22",
+      "display": "9/22",
+      "weekday": "一",
+      "selected": true
+    },
+    {
+      "val": "2025-09-26",
+      "display": "9/26",
+      "weekday": "五",
+      "selected": true
+    },
+    {
+      "val": "2025-09-29",
+      "display": "9/29",
+      "weekday": "一",
+      "selected": true
+    },
+    {
+      "val": "2025-10-03",
+      "display": "10/3",
+      "weekday": "五",
+      "selected": true
+    }
+  ],
+  "topics": {
+    "2025-09-01_1A": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-01_1B": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-01_2A": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-01_2B": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-01_2C": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-01_3A": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-01_3B": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-01_3C": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-01_4A": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-01_4B": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-01_4C": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-01_5A": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-01_5B": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-01_5C": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-01_6A": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-01_6B": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-01_6C": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-05_1A": {
+      "text": "班規+班相+個人小檔案",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-05_1B": {
+      "text": "班規+班相+個人小檔案",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-05_2A": {
+      "text": "班規+班相+個人小檔案",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-05_2B": {
+      "text": "班規+班相+個人小檔案",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-05_2C": {
+      "text": "班規+班相+個人小檔案",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-05_3A": {
+      "text": "班規+班相+個人小檔案",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-05_3B": {
+      "text": "班規+班相+個人小檔案",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-05_3C": {
+      "text": "班規+班相+個人小檔案",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-05_4A": {
+      "text": "班規+班相+個人小檔案",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-05_4B": {
+      "text": "班規+班相+個人小檔案",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-05_4C": {
+      "text": "班規+班相+個人小檔案",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-05_5A": {
+      "text": "班規+班相+個人小檔案",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-05_5B": {
+      "text": "班規+班相+個人小檔案",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-05_5C": {
+      "text": "班規+班相+個人小檔案",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-05_6A": {
+      "text": "班規+班相+個人小檔案",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-05_6B": {
+      "text": "班規+班相+個人小檔案",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-05_6C": {
+      "text": "班規+班相+個人小檔案",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-08_1A": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-08_1B": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-08_2A": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-08_2B": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-08_2C": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-08_3A": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-08_3B": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-08_3C": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-08_4A": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-08_4B": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-08_4C": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-08_5A": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-08_5B": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-08_5C": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-08_6A": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-08_6B": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-08_6C": {
+      "text": "開學班務",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-12_1A": {
+      "text": "創意小手工(P1L1)",
+      "color": "#FF99CC",
+      "fixedTeacher": ""
+    },
+    "2025-09-12_1B": {
+      "text": "創意小手工(P1L1)",
+      "color": "#FF99CC",
+      "fixedTeacher": ""
+    },
+    "2025-09-12_2A": {
+      "text": "桌遊 (棋類)",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-12_2B": {
+      "text": "桌遊 (棋類)",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-12_2C": {
+      "text": "桌遊 (棋類)",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-12_3A": {
+      "text": "數學遊戲 (P3L1)",
+      "color": "#99FFCC",
+      "fixedTeacher": ""
+    },
+    "2025-09-12_3B": {
+      "text": "數學遊戲 (P3L1)",
+      "color": "#99FFCC",
+      "fixedTeacher": ""
+    },
+    "2025-09-12_3C": {
+      "text": "數學遊戲 (P3L1)",
+      "color": "#99FFCC",
+      "fixedTeacher": ""
+    },
+    "2025-09-12_4A": {
+      "text": "生涯規劃",
+      "color": "#CC99FF",
+      "fixedTeacher": ""
+    },
+    "2025-09-12_4B": {
+      "text": "生涯規劃",
+      "color": "#CC99FF",
+      "fixedTeacher": ""
+    },
+    "2025-09-12_4C": {
+      "text": "生涯規劃",
+      "color": "#CC99FF",
+      "fixedTeacher": ""
+    },
+    "2025-09-12_5A": {
+      "text": "生涯規劃",
+      "color": "#CC99FF",
+      "fixedTeacher": ""
+    },
+    "2025-09-12_5B": {
+      "text": "生涯規劃",
+      "color": "#CC99FF",
+      "fixedTeacher": ""
+    },
+    "2025-09-12_5C": {
+      "text": "生涯規劃",
+      "color": "#CC99FF",
+      "fixedTeacher": ""
+    },
+    "2025-09-12_6A": {
+      "text": "生涯規劃",
+      "color": "#CC99FF",
+      "fixedTeacher": ""
+    },
+    "2025-09-12_6B": {
+      "text": "生涯規劃",
+      "color": "#CC99FF",
+      "fixedTeacher": ""
+    },
+    "2025-09-12_6C": {
+      "text": "生涯規劃",
+      "color": "#CC99FF",
+      "fixedTeacher": ""
+    },
+    "2025-09-15_1A": {
+      "text": "週訓 人生目標和信念  (低小禮堂)",
+      "color": "#FFC000",
+      "fixedTeacher": ""
+    },
+    "2025-09-15_1B": {
+      "text": "週訓 人生目標和信念  (低小禮堂)",
+      "color": "#FFC000",
+      "fixedTeacher": ""
+    },
+    "2025-09-15_2A": {
+      "text": "週訓 人生目標和信念  (低小禮堂)",
+      "color": "#FFC000",
+      "fixedTeacher": ""
+    },
+    "2025-09-15_2B": {
+      "text": "週訓 人生目標和信念  (低小禮堂)",
+      "color": "#FFC000",
+      "fixedTeacher": ""
+    },
+    "2025-09-15_2C": {
+      "text": "週訓 人生目標和信念  (低小禮堂)",
+      "color": "#FFC000",
+      "fixedTeacher": ""
+    },
+    "2025-09-15_3A": {
+      "text": "週訓 人生目標和信念  (低小禮堂)",
+      "color": "#FFC000",
+      "fixedTeacher": ""
+    },
+    "2025-09-15_3B": {
+      "text": "週訓 人生目標和信念  (低小禮堂)",
+      "color": "#FFC000",
+      "fixedTeacher": ""
+    },
+    "2025-09-15_3C": {
+      "text": "週訓 人生目標和信念  (低小禮堂)",
+      "color": "#FFC000",
+      "fixedTeacher": ""
+    },
+    "2025-09-15_4A": {
+      "text": "人文增補1",
+      "color": "#FFCCFF",
+      "fixedTeacher": ""
+    },
+    "2025-09-15_4B": {
+      "text": "人文增補1",
+      "color": "#FFCCFF",
+      "fixedTeacher": ""
+    },
+    "2025-09-15_4C": {
+      "text": "人文增補1",
+      "color": "#FFCCFF",
+      "fixedTeacher": ""
+    },
+    "2025-09-15_5A": {
+      "text": "成長課(g14a)",
+      "color": "#FFFF00",
+      "fixedTeacher": ""
+    },
+    "2025-09-15_5B": {
+      "text": "成長課(g14a)",
+      "color": "#FFFF00",
+      "fixedTeacher": ""
+    },
+    "2025-09-15_5C": {
+      "text": "成長課(g14a)",
+      "color": "#FFFF00",
+      "fixedTeacher": ""
+    },
+    "2025-09-15_6A": {
+      "text": "課室遊戲 (猜猜畫畫)",
+      "color": "#0070C0",
+      "fixedTeacher": ""
+    },
+    "2025-09-15_6B": {
+      "text": "課室遊戲 (猜猜畫畫)",
+      "color": "#0070C0",
+      "fixedTeacher": ""
+    },
+    "2025-09-15_6C": {
+      "text": "課室遊戲 (猜猜畫畫)",
+      "color": "#0070C0",
+      "fixedTeacher": ""
+    },
+    "2025-09-19_1A": {
+      "text": "創意小手工(P1L2)",
+      "color": "#FF99CC",
+      "fixedTeacher": ""
+    },
+    "2025-09-19_1B": {
+      "text": "創意小手工(P1L2)",
+      "color": "#FF99CC",
+      "fixedTeacher": ""
+    },
+    "2025-09-19_2A": {
+      "text": "桌遊 (棋類)",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-19_2B": {
+      "text": "桌遊 (棋類)",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-19_2C": {
+      "text": "桌遊 (棋類)",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-19_3A": {
+      "text": "數學遊戲 (P3L2)",
+      "color": "#99FFCC",
+      "fixedTeacher": ""
+    },
+    "2025-09-19_3B": {
+      "text": "數學遊戲 (P3L2)",
+      "color": "#99FFCC",
+      "fixedTeacher": ""
+    },
+    "2025-09-19_3C": {
+      "text": "數學遊戲 (P3L2)",
+      "color": "#99FFCC",
+      "fixedTeacher": ""
+    },
+    "2025-09-19_4A": {
+      "text": "語文遊戲 (P4L1)",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-19_4B": {
+      "text": "語文遊戲 (P4L1)",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-19_4C": {
+      "text": "語文遊戲 (P4L1)",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-19_5A": {
+      "text": "課室遊戲 (猜猜畫畫)",
+      "color": "#0070C0",
+      "fixedTeacher": ""
+    },
+    "2025-09-19_5B": {
+      "text": "課室遊戲 (猜猜畫畫)",
+      "color": "#0070C0",
+      "fixedTeacher": ""
+    },
+    "2025-09-19_5C": {
+      "text": "課室遊戲 (猜猜畫畫)",
+      "color": "#0070C0",
+      "fixedTeacher": ""
+    },
+    "2025-09-19_6A": {
+      "text": "升中錦囊1",
+      "color": "#CC99FF",
+      "fixedTeacher": ""
+    },
+    "2025-09-19_6B": {
+      "text": "升中錦囊1",
+      "color": "#CC99FF",
+      "fixedTeacher": ""
+    },
+    "2025-09-19_6C": {
+      "text": "升中錦囊1",
+      "color": "#CC99FF",
+      "fixedTeacher": ""
+    },
+    "2025-09-22_1A": {
+      "text": "小一適應",
+      "color": "#CCCCFF",
+      "fixedTeacher": ""
+    },
+    "2025-09-22_1B": {
+      "text": "小一適應",
+      "color": "#CCCCFF",
+      "fixedTeacher": ""
+    },
+    "2025-09-22_2A": {
+      "text": "體適能",
+      "color": "#00B050",
+      "fixedTeacher": ""
+    },
+    "2025-09-22_2B": {
+      "text": "體適能",
+      "color": "#00B050",
+      "fixedTeacher": ""
+    },
+    "2025-09-22_2C": {
+      "text": "體適能",
+      "color": "#00B050",
+      "fixedTeacher": ""
+    },
+    "2025-09-22_3A": {
+      "text": "集思課1",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-22_3B": {
+      "text": "集思課1",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-22_3C": {
+      "text": "集思課1",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-22_4A": {
+      "text": "週訓 人生目標和信念   (高小禮堂)",
+      "color": "#FFC000",
+      "fixedTeacher": ""
+    },
+    "2025-09-22_4B": {
+      "text": "週訓 人生目標和信念   (高小禮堂)",
+      "color": "#FFC000",
+      "fixedTeacher": ""
+    },
+    "2025-09-22_4C": {
+      "text": "週訓 人生目標和信念   (高小禮堂)",
+      "color": "#FFC000",
+      "fixedTeacher": ""
+    },
+    "2025-09-22_5A": {
+      "text": "週訓 人生目標和信念   (高小禮堂)",
+      "color": "#FFC000",
+      "fixedTeacher": ""
+    },
+    "2025-09-22_5B": {
+      "text": "週訓 人生目標和信念   (高小禮堂)",
+      "color": "#FFC000",
+      "fixedTeacher": ""
+    },
+    "2025-09-22_5C": {
+      "text": "週訓 人生目標和信念   (高小禮堂)",
+      "color": "#FFC000",
+      "fixedTeacher": ""
+    },
+    "2025-09-22_6A": {
+      "text": "週訓 人生目標和信念   (高小禮堂)",
+      "color": "#FFC000",
+      "fixedTeacher": ""
+    },
+    "2025-09-22_6B": {
+      "text": "週訓 人生目標和信念   (高小禮堂)",
+      "color": "#FFC000",
+      "fixedTeacher": ""
+    },
+    "2025-09-22_6C": {
+      "text": "週訓 人生目標和信念   (高小禮堂)",
+      "color": "#FFC000",
+      "fixedTeacher": ""
+    },
+    "2025-09-26_1A": {
+      "text": "創意小手工(P1L3)",
+      "color": "#FF99CC",
+      "fixedTeacher": ""
+    },
+    "2025-09-26_1B": {
+      "text": "創意小手工(P1L3)",
+      "color": "#FF99CC",
+      "fixedTeacher": ""
+    },
+    "2025-09-26_2A": {
+      "text": "桌遊 (棋類)",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-26_2B": {
+      "text": "桌遊 (棋類)",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-26_2C": {
+      "text": "桌遊 (棋類)",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-26_3A": {
+      "text": "數學遊戲 (P3L3)",
+      "color": "#99FFCC",
+      "fixedTeacher": ""
+    },
+    "2025-09-26_3B": {
+      "text": "數學遊戲 (P3L3)",
+      "color": "#99FFCC",
+      "fixedTeacher": ""
+    },
+    "2025-09-26_3C": {
+      "text": "數學遊戲 (P3L3)",
+      "color": "#99FFCC",
+      "fixedTeacher": ""
+    },
+    "2025-09-26_4A": {
+      "text": "語文遊戲 (P4L2)",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-26_4B": {
+      "text": "語文遊戲 (P4L2)",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-26_4C": {
+      "text": "語文遊戲 (P4L2)",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-26_5A": {
+      "text": "課室遊戲 (老師話)",
+      "color": "#0070C0",
+      "fixedTeacher": ""
+    },
+    "2025-09-26_5B": {
+      "text": "課室遊戲 (老師話)",
+      "color": "#0070C0",
+      "fixedTeacher": ""
+    },
+    "2025-09-26_5C": {
+      "text": "課室遊戲 (老師話)",
+      "color": "#0070C0",
+      "fixedTeacher": ""
+    },
+    "2025-09-26_6A": {
+      "text": "升中錦囊2",
+      "color": "#CC99FF",
+      "fixedTeacher": ""
+    },
+    "2025-09-26_6B": {
+      "text": "升中錦囊2",
+      "color": "#CC99FF",
+      "fixedTeacher": ""
+    },
+    "2025-09-26_6C": {
+      "text": "升中錦囊2",
+      "color": "#CC99FF",
+      "fixedTeacher": ""
+    },
+    "2025-09-29_1A": {
+      "text": "小一適應",
+      "color": "#CCCCFF",
+      "fixedTeacher": ""
+    },
+    "2025-09-29_1B": {
+      "text": "小一適應",
+      "color": "#CCCCFF",
+      "fixedTeacher": ""
+    },
+    "2025-09-29_2A": {
+      "text": "自理大挑戰",
+      "color": "#FFCCFF",
+      "fixedTeacher": ""
+    },
+    "2025-09-29_2B": {
+      "text": "自理大挑戰",
+      "color": "#FFCCFF",
+      "fixedTeacher": ""
+    },
+    "2025-09-29_2C": {
+      "text": "自理大挑戰",
+      "color": "#FFCCFF",
+      "fixedTeacher": ""
+    },
+    "2025-09-29_3A": {
+      "text": "體適能",
+      "color": "#00B050",
+      "fixedTeacher": ""
+    },
+    "2025-09-29_3B": {
+      "text": "體適能",
+      "color": "#00B050",
+      "fixedTeacher": ""
+    },
+    "2025-09-29_3C": {
+      "text": "體適能",
+      "color": "#00B050",
+      "fixedTeacher": ""
+    },
+    "2025-09-29_4A": {
+      "text": "人文增補2",
+      "color": "#FFCCFF",
+      "fixedTeacher": ""
+    },
+    "2025-09-29_4B": {
+      "text": "人文增補2",
+      "color": "#FFCCFF",
+      "fixedTeacher": ""
+    },
+    "2025-09-29_4C": {
+      "text": "人文增補2",
+      "color": "#FFCCFF",
+      "fixedTeacher": ""
+    },
+    "2025-09-29_5A": {
+      "text": "集思課1",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-29_5B": {
+      "text": "集思課1",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-29_5C": {
+      "text": "集思課1",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-09-29_6A": {
+      "text": "成長課(g14a)",
+      "color": "#FFFF00",
+      "fixedTeacher": ""
+    },
+    "2025-09-29_6B": {
+      "text": "成長課(g14a)",
+      "color": "#FFFF00",
+      "fixedTeacher": ""
+    },
+    "2025-09-29_6C": {
+      "text": "成長課(g14a)",
+      "color": "#FFFF00",
+      "fixedTeacher": ""
+    },
+    "2025-10-03_1A": {
+      "text": "Phonics&Fun English Game (P1L1)",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-10-03_1B": {
+      "text": "Phonics&Fun English Game (P1L1)",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-10-03_2A": {
+      "text": "創意小手工(P2L1)",
+      "color": "#FF99CC",
+      "fixedTeacher": ""
+    },
+    "2025-10-03_2B": {
+      "text": "創意小手工(P2L1)",
+      "color": "#FF99CC",
+      "fixedTeacher": ""
+    },
+    "2025-10-03_2C": {
+      "text": "創意小手工(P2L1)",
+      "color": "#FF99CC",
+      "fixedTeacher": ""
+    },
+    "2025-10-03_3A": {
+      "text": "桌遊 (快手鬼鬼)",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-10-03_3B": {
+      "text": "桌遊 (快手鬼鬼)",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-10-03_3C": {
+      "text": "桌遊 (快手鬼鬼)",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-10-03_4A": {
+      "text": "魔力橋",
+      "color": "#99FFCC",
+      "fixedTeacher": ""
+    },
+    "2025-10-03_4B": {
+      "text": "魔力橋",
+      "color": "#99FFCC",
+      "fixedTeacher": ""
+    },
+    "2025-10-03_4C": {
+      "text": "魔力橋",
+      "color": "#99FFCC",
+      "fixedTeacher": ""
+    },
+    "2025-10-03_5A": {
+      "text": "語文遊戲  (P5L1)",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-10-03_5B": {
+      "text": "語文遊戲  (P5L1)",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-10-03_5C": {
+      "text": "語文遊戲  (P5L1)",
+      "color": "#ffffff",
+      "fixedTeacher": ""
+    },
+    "2025-10-03_6A": {
+      "text": "升中錦囊3",
+      "color": "#CC99FF",
+      "fixedTeacher": ""
+    },
+    "2025-10-03_6B": {
+      "text": "升中錦囊3",
+      "color": "#CC99FF",
+      "fixedTeacher": ""
+    },
+    "2025-10-03_6C": {
+      "text": "升中錦囊3",
+      "color": "#CC99FF",
+      "fixedTeacher": ""
+    }
+  },
+  "specialTasks": {}
+}

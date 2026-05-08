@@ -25,6 +25,7 @@ npm run dev
 - **Start Command**：`npm start`
 - **Environment**（可選）：
   - `DATA_PATH=/var/data/data.json`（如你用 Render Disk）
+  - `DB_PATH=/var/data/app.sqlite`（SQLite 持久化；建議用）
 
 ### Demo 功能
 
