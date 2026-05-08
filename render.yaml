@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: demo-render-scheduler
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: 18
+      - key: DATA_PATH
+        value: /var/data/data.json
+    disk:
+      name: data
+      mountPath: /var/data
+      sizeGB: 1
+

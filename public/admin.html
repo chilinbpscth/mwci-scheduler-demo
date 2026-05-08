@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-HK">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>管理端（Demo）</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-slate-50 text-slate-900">
+    <div class="max-w-5xl mx-auto p-4">
+      <header class="bg-white border rounded-lg p-4 flex items-center justify-between">
+        <div>
+          <div class="text-xl font-bold">管理端（Demo）</div>
+          <div class="text-sm text-slate-500">快速修改班別/老師/日期/主題（demo 用）</div>
+        </div>
+        <div class="flex gap-2">
+          <a href="/" class="px-3 py-2 rounded border bg-slate-50 hover:bg-slate-100 text-sm">返回老師端</a>
+        </div>
+      </header>
+
+      <main class="grid grid-cols-1 gap-4 mt-4">
+        <section class="bg-white border rounded-lg p-4">
+          <div class="font-bold mb-2">快速設定</div>
+          <div class="text-sm text-slate-600 mb-3">（demo）輸入 JSON 後按「儲存」，就會覆蓋伺服器資料。</div>
+          <textarea id="json" rows="18" class="w-full border rounded p-3 font-mono text-xs"></textarea>
+          <div class="flex gap-2 mt-3">
+            <button id="btnLoad" class="px-3 py-2 rounded border bg-slate-50 hover:bg-slate-100 text-sm">載入現有</button>
+            <button id="btnSave" class="px-3 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white text-sm">儲存</button>
+          </div>
+          <div id="status" class="text-sm text-slate-500 mt-2"></div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      const $ = (id) => document.getElementById(id);
+
+      async function api(method, url, body) {
+        const res = await fetch(url, {
+          method,
+          headers: body ? { "Content-Type": "application/json" } : undefined,
+          body: body ? JSON.stringify(body) : undefined,
+        });
+        if (!res.ok) throw new Error(await res.text());
+        return await res.json();
+      }
+
+      async function load() {
+        $("status").textContent = "載入中…";
+        const state = await api("GET", "/api/state");
+        $("json").value = JSON.stringify(
+          {
+            classes: state.classes,
+            teachers: state.teachers,
+            dates: state.dates,
+            topics: state.topics,
+            specialTasks: state.specialTasks,
+          },
+          null,
+          2
+        );
+        $("status").textContent = "已載入";
+      }
+
+      $("btnLoad").onclick = load;
+      $("btnSave").onclick = async () => {
+        try {
+          $("status").textContent = "儲存中…";
+          const body = JSON.parse($("json").value);
+          await api("POST", "/api/admin/set", body);
+          $("status").textContent = "已儲存";
+        } catch (e) {
+          $("status").textContent = "儲存失敗（JSON 格式可能錯）";
+          console.error(e);
+        }
+      };
+
+      load();
+    </script>
+  </body>
+</html>
+
