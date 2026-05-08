@@ -63,7 +63,7 @@ app.post("/api/locks/unlock", async (req, res) => {
 
 app.post("/api/generate", requireAdmin, async (_req, res) => {
   const data = getState(db);
-  const { schedule, teacherLoad } = generateSchedule({
+  const { schedule, teacherLoad, tbdErrors } = generateSchedule({
     classes: data.classes,
     teachers: data.teachers,
     dates: data.dates,
@@ -72,12 +72,15 @@ app.post("/api/generate", requireAdmin, async (_req, res) => {
     locks: data.locks,
     baseTeacherLoad: {}
   });
+  if (tbdErrors && tbdErrors.length > 0) {
+    return res.status(409).json({ ok: false, error: "tbd_gate", tbdErrors });
+  }
   res.json({ ok: true, schedule, teacherLoad });
 });
 
 app.get("/api/export.xlsx", requireAdmin, async (_req, res) => {
   const data = getState(db);
-  const { schedule } = generateSchedule({
+  const { schedule, tbdErrors } = generateSchedule({
     classes: data.classes,
     teachers: data.teachers,
     dates: data.dates,
@@ -86,6 +89,9 @@ app.get("/api/export.xlsx", requireAdmin, async (_req, res) => {
     locks: data.locks,
     baseTeacherLoad: {}
   });
+  if (tbdErrors && tbdErrors.length > 0) {
+    return res.status(409).json({ ok: false, error: "tbd_gate", tbdErrors });
+  }
 
   const buffer = await exportToExcelBuffer({
     classes: data.classes,

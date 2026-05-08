@@ -1,6 +1,6 @@
-// Server-side scheduler that mirrors the key intent of v6.41:
-// - Fixed teachers (locks) are applied first.
-// - Then special tasks.
+// Server-side scheduler aligned to v6.41 intent:
+// - Fixed teachers (locks + topic.fixedTeacher) are applied first with conflict detection.
+// - Then special tasks with conflict detection (conflicts become TBD).
 // - Remaining cells are auto-assigned using: load balance > class preference > specialty > fatigue (optional) > random.
 
 const BASE_LOAD = 2;
@@ -30,6 +30,11 @@ function updateTeacherLoad(teacherStr, loadMap, value = BASE_LOAD) {
   }
 }
 
+function isNoScheduleTeacherStr(str) {
+  const s = String(str ?? "").trim();
+  return s === "/" || s === "";
+}
+
 export function generateSchedule({
   classes,
   teachers,
@@ -51,6 +56,7 @@ export function generateSchedule({
 
   const selectedDates = dates.filter((d) => d.selected !== false);
   const result = [];
+  const tbdErrors = [];
 
   // Pre-index locks by date+class.
   const lockMap = new Map();
@@ -70,24 +76,75 @@ export function generateSchedule({
       specialTaskResults: []
     };
 
-    // 1) Apply fixed teachers from locks (mirrors fixedTeacher).
+    // 1) Apply fixed teachers: locks override topics[*].fixedTeacher.
+    // Also detect fixed-vs-fixed conflicts and turn those cells into TBD (to be gated upstream).
+    const fixedCells = [];
     for (const cls of parsedClasses) {
       const key = `${date.val}_${cls.name}`;
+      const topicData = topics[key] ?? { text: "", color: "#ffffff", fixedTeacher: "" };
       const lockedTeacher = lockMap.get(key);
-      if (!lockedTeacher) continue;
+      const fixedTeacher = lockedTeacher ?? topicData.fixedTeacher;
+      if (isNoScheduleTeacherStr(fixedTeacher)) continue;
 
-      const topicData = topics[key] ?? { text: "", color: "#ffffff" };
-      const tStr = String(lockedTeacher).trim();
-      if (!tStr) continue;
+      const tStr = String(fixedTeacher).trim();
+      if (!tStr || tStr === "TBD") {
+        rowAssignments[cls.name] = {
+          teacher: "TBD",
+          topic: topicData.text ?? "",
+          color: topicData.color ?? "#ffffff",
+          isFixed: false
+        };
+        tbdErrors.push(`${date.val} - ${cls.name} (課堂)`);
+        continue;
+      }
 
       const [s1, s2] = getTeacherSlots(tStr);
-      rowAssignments[cls.name] = {
+      const cell = {
+        className: cls.name,
         teacher: tStr,
         topic: topicData.text ?? "",
         color: topicData.color ?? "#ffffff",
         isFixed: true
       };
-      updateTeacherLoad(tStr, teacherLoad, BASE_LOAD);
+      fixedCells.push({ ...cell, s1, s2 });
+      rowAssignments[cls.name] = cell;
+    }
+
+    // Fixed-vs-fixed slot conflicts (same teacher in same period across classes).
+    // Mark both as TBD to match v6.41 "conflict => TBD" behavior.
+    const seen = {}; // teacher -> {1: className, 2: className}
+    for (const fc of fixedCells) {
+      const { teacher, className, s1, s2 } = fc;
+      seen[teacher] ??= { 1: null, 2: null };
+      if (s1 && seen[teacher][1] && seen[teacher][1] !== className) {
+        rowAssignments[className].teacher = "TBD";
+        rowAssignments[seen[teacher][1]].teacher = "TBD";
+        rowAssignments[className].isFixed = false;
+        rowAssignments[seen[teacher][1]].isFixed = false;
+        tbdErrors.push(`${date.val} - ${className} (課堂)`);
+        tbdErrors.push(`${date.val} - ${seen[teacher][1]} (課堂)`);
+      } else if (s1) {
+        seen[teacher][1] = className;
+      }
+      if (s2 && seen[teacher][2] && seen[teacher][2] !== className) {
+        rowAssignments[className].teacher = "TBD";
+        rowAssignments[seen[teacher][2]].teacher = "TBD";
+        rowAssignments[className].isFixed = false;
+        rowAssignments[seen[teacher][2]].isFixed = false;
+        tbdErrors.push(`${date.val} - ${className} (課堂)`);
+        tbdErrors.push(`${date.val} - ${seen[teacher][2]} (課堂)`);
+      } else if (s2) {
+        seen[teacher][2] = className;
+      }
+    }
+
+    // Apply non-TBD fixed cells to busySlots + load
+    for (const cls of parsedClasses) {
+      const cell = rowAssignments[cls.name];
+      if (!cell || cell.teacher === "TBD") continue;
+      if (!cell.isFixed) continue;
+      updateTeacherLoad(cell.teacher, teacherLoad, BASE_LOAD);
+      const [s1, s2] = getTeacherSlots(cell.teacher);
       if (s1) {
         busySlots[s1] ??= { 1: false, 2: false };
         busySlots[s1][1] = true;
@@ -98,7 +155,7 @@ export function generateSchedule({
       }
     }
 
-    // 2) Special tasks (basic support)
+    // 2) Special tasks (v6.41-like, conflicts become TBD)
     const dayTasks = specialTasks?.[date.val] ?? [];
     for (const task of dayTasks) {
       const taskResult = { name: task.name, teachers: [] };
@@ -112,7 +169,15 @@ export function generateSchedule({
 
         let picked = null;
         if (assign.teacher && String(assign.teacher).trim()) {
-          picked = String(assign.teacher).trim();
+          const tName = String(assign.teacher).trim();
+          // Conflict with existing busy slots (fixed teachers or prior tasks)
+          busySlots[tName] ??= { 1: false, 2: false };
+          if ((needs1 && busySlots[tName][1]) || (needs2 && busySlots[tName][2])) {
+            picked = "TBD";
+            tbdErrors.push(`${date.val} (特別任務)`);
+          } else {
+            picked = tName;
+          }
         } else {
           const available = teachers.filter((t) => {
             const slot = busySlots[t.name];
@@ -130,6 +195,8 @@ export function generateSchedule({
           if (needs1) busySlots[picked][1] = true;
           if (needs2) busySlots[picked][2] = true;
           teacherLoad[picked] = (teacherLoad[picked] ?? 0) + loadValue;
+        } else {
+          // Keep TBD in result
         }
 
         let display = picked;
@@ -147,7 +214,7 @@ export function generateSchedule({
     for (const cls of shuffledClasses) {
       if (rowAssignments[cls.name]) continue;
       const key = `${date.val}_${cls.name}`;
-      const topicData = topics[key] ?? { text: "", color: "#ffffff" };
+      const topicData = topics[key] ?? { text: "", color: "#ffffff", fixedTeacher: "" };
       const topicText = String(topicData.text ?? "").trim();
 
       let available = teachers.filter((t) => {
@@ -189,6 +256,8 @@ export function generateSchedule({
         busySlots[assigned][1] = true;
         busySlots[assigned][2] = true;
         teacherLoad[assigned] = (teacherLoad[assigned] ?? 0) + BASE_LOAD;
+      } else {
+        tbdErrors.push(`${date.val} - ${cls.name} (課堂)`);
       }
 
       rowAssignments[cls.name] = {
@@ -203,6 +272,6 @@ export function generateSchedule({
     result.push(row);
   }
 
-  return { schedule: result, teacherLoad };
+  return { schedule: result, teacherLoad, tbdErrors: Array.from(new Set(tbdErrors)) };
 }
 

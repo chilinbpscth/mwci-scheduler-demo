@@ -184,6 +184,16 @@
           $("previewRaw").textContent = JSON.stringify(out.schedule, null, 2);
           $("status").textContent = "已生成（預覽見下方）";
         } catch (e) {
+          try {
+            const body = JSON.parse(String(e.message || "{}"));
+            if (body && body.error === "tbd_gate") {
+              $("status").textContent = "未能生成：仍有 TBD（待定/衝突）";
+              $("previewRaw").classList.remove("hidden");
+              $("previewRaw").textContent = JSON.stringify(body.tbdErrors || [], null, 2);
+              $("btnToggleRaw").textContent = "隱藏原始 JSON";
+              return;
+            }
+          } catch {}
           $("status").textContent = "生成失敗（Admin Key 可能唔啱）";
           console.error(e);
         }
