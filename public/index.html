@@ -164,6 +164,12 @@
         $("status").textContent = "載入失敗";
         console.error(e);
       });
+
+      // Teacher live view: poll locks/state periodically (simple + reliable).
+      // Keep selection stable via refresh() logic.
+      setInterval(() => {
+        refresh().catch(() => {});
+      }, 4000);
     </script>
   </body>
 </html>
