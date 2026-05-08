@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多元智能課排課系統 v6.41 (修正匯入覆蓋版)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- ExcelJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+    <!-- FileSaver -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
+        body { font-family: 'Noto Sans TC', sans-serif; }
+        .step-active { @apply border-blue-600 text-blue-600 bg-blue-50; }
+        .step-inactive { @apply border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300; }
+        
+        /* Custom Scrollbar */
+        .matrix-scroll::-webkit-scrollbar { height: 12px; width: 12px; }
+        .matrix-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 6px; border: 3px solid #f1f5f9; }
+        .matrix-scroll::-webkit-scrollbar-track { background: #f1f5f9; }
+        
+        .tag-main { @apply bg-red-100 text-red-700 border-red-200; }
+        .tag-sub { @apply bg-gray-100 text-gray-700 border-gray-200; }
+        .tag-specialty { @apply bg-purple-100 text-purple-700 border-purple-200; }
+
+        .sticky-header { position: sticky; top: 0; z-index: 30; }
+        .sticky-col { position: sticky; left: 0; z-index: 20; }
+        .sticky-corner { position: sticky; top: 0; left: 0; z-index: 40; }
+
+        input[type="color"] {
+            -webkit-appearance: none; border: none; width: 32px; height: 32px; padding: 0; overflow: hidden; border-radius: 50%; cursor: pointer;
+        }
+        input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+        input[type="color"]::-webkit-color-swatch { border: none; border-radius: 50%; border: 1px solid #ddd; }
+        
+        .input-tbd { @apply text-red-600 font-bold bg-red-50 border-red-300 ring-2 ring-red-400; }
+        .btn-tbd { @apply text-red-600 font-bold border-red-300 bg-red-50 ring-2 ring-red-400; }
+
+        /* Animation for jump focus */
+        @keyframes flash-focus {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+        .flash-active {
+            animation: flash-focus 1s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen">
+
+<!--
+  NOTE:
+  呢份檔案係由原本工作區 `卍慈多元智能課排課系統v6.41(with開發者資料).html` 複製入 repo 作參考。
+  Demo 專案嘅雲端版架構會逐步抽取/重用當中嘅排課規則（尤其 generateSchedule / exportToExcel 的意圖）。
+-->
+
+<div class="p-6 text-sm text-red-700 bg-red-50 border border-red-200 rounded m-6">
+  為咗避免 repo 體積過大同重複維護，呢個 `reference/原版系統_v6.41.html` 只保留檔頭同說明。\n
+  請到原工作區檔案查看完整內容：`卍慈多元智能課排課系統v6.41(with開發者資料).html`。\n
+  （如你確定要將完整 100+KB HTML 亦納入 repo，我可以再幫你補齊。）\n
+</div>
+
+</body>
+</html>
+
