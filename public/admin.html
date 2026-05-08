@@ -20,6 +20,31 @@
 
       <main class="grid grid-cols-1 gap-4 mt-4">
         <section class="bg-white border rounded-lg p-4">
+          <div class="font-bold mb-2">管理員操作</div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 items-end">
+            <div class="md:col-span-2">
+              <label class="text-sm text-slate-600">Admin Key（demo 可留空；如伺服器設置 `ADMIN_KEY` 就必填）</label>
+              <input id="adminKey" type="password" class="w-full border rounded p-2 mt-1" placeholder="(optional)" />
+              <div class="text-xs text-slate-500 mt-1">會保存在瀏覽器 localStorage（只限 demo）。</div>
+            </div>
+            <div class="flex gap-2">
+              <button id="btnGenerate" class="flex-1 px-3 py-2 rounded bg-green-600 hover:bg-green-700 text-white text-sm">生成（補剩餘）</button>
+              <button id="btnExport" class="flex-1 px-3 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white text-sm">下載 Excel</button>
+            </div>
+          </div>
+          <div class="mt-3 flex items-center justify-between gap-2">
+            <div class="font-bold">生成預覽</div>
+            <button id="btnToggleRaw" class="px-3 py-1.5 rounded border bg-slate-50 hover:bg-slate-100 text-sm">
+              顯示原始 JSON
+            </button>
+          </div>
+          <div class="mt-3 overflow-x-auto">
+            <table class="min-w-full border text-sm" id="previewTable"></table>
+          </div>
+          <pre id="previewRaw" class="hidden mt-3 text-xs bg-slate-900 text-slate-50 p-3 rounded overflow-x-auto"></pre>
+        </section>
+
+        <section class="bg-white border rounded-lg p-4">
           <div class="font-bold mb-2">快速設定</div>
           <div class="text-sm text-slate-600 mb-3">（demo）輸入 JSON 後按「儲存」，就會覆蓋伺服器資料。</div>
           <textarea id="json" rows="18" class="w-full border rounded p-3 font-mono text-xs"></textarea>
@@ -35,10 +60,21 @@
     <script>
       const $ = (id) => document.getElementById(id);
 
+      function getAdminKey() {
+        return $("adminKey").value || localStorage.getItem("adminKey") || "";
+      }
+      function setAdminKey(val) {
+        localStorage.setItem("adminKey", val || "");
+      }
+
       async function api(method, url, body) {
+        const adminKey = getAdminKey();
         const res = await fetch(url, {
           method,
-          headers: body ? { "Content-Type": "application/json" } : undefined,
+          headers: {
+            ...(body ? { "Content-Type": "application/json" } : {}),
+            ...(adminKey ? { "x-admin-key": adminKey } : {})
+          },
           body: body ? JSON.stringify(body) : undefined,
         });
         if (!res.ok) throw new Error(await res.text());
@@ -62,6 +98,67 @@
         $("status").textContent = "已載入";
       }
 
+      function renderPreviewTable(state, generated) {
+        const table = $("previewTable");
+        table.innerHTML = "";
+
+        if (!generated || !generated.length) {
+          table.innerHTML = `<tr><td class="border p-3 text-slate-500">未生成。按「生成（補剩餘）」後會出現預覽。</td></tr>`;
+          return;
+        }
+
+        const lockMap = new Map();
+        for (const l of state.locks || []) {
+          if (l.status !== "locked") continue;
+          lockMap.set(`${l.dateVal}_${l.className}`, l.teacher);
+        }
+
+        const thead = document.createElement("thead");
+        const hr = document.createElement("tr");
+        hr.innerHTML =
+          `<th class="border p-2 bg-slate-50 sticky left-0">日期</th>` +
+          (state.classes || []).map((c) => `<th class="border p-2 bg-slate-50">${c.name}</th>`).join("");
+        thead.appendChild(hr);
+        table.appendChild(thead);
+
+        const tbody = document.createElement("tbody");
+        for (const row of generated) {
+          const tr = document.createElement("tr");
+          const dateCell = document.createElement("td");
+          dateCell.className = "border p-2 bg-slate-50 sticky left-0 font-bold";
+          dateCell.textContent = `${row.dateVal} (${row.weekday || ""})`;
+          tr.appendChild(dateCell);
+
+          for (const c of state.classes || []) {
+            const cell = row.assignments?.[c.name];
+            const td = document.createElement("td");
+            td.className = "border p-2 align-top";
+            td.style.background = cell?.color || "#ffffff";
+
+            const topic = document.createElement("div");
+            topic.className = "text-xs text-slate-700";
+            topic.textContent = cell?.topic || "";
+
+            const teacher = document.createElement("div");
+            const lockedBy = lockMap.get(`${row.dateVal}_${c.name}`);
+            const isLocked = Boolean(lockedBy);
+            teacher.className = isLocked ? "text-sm font-bold text-blue-900" : "text-sm font-semibold text-slate-800";
+            teacher.textContent = cell?.teacher ? (isLocked ? `鎖位：${cell.teacher}` : `系統：${cell.teacher}`) : "";
+
+            const badge = document.createElement("div");
+            badge.className = "mt-1 text-[11px] text-slate-500";
+            badge.textContent = isLocked ? "固定（老師揀位）" : "自動補位";
+
+            td.appendChild(topic);
+            td.appendChild(teacher);
+            td.appendChild(badge);
+            tr.appendChild(td);
+          }
+          tbody.appendChild(tr);
+        }
+        table.appendChild(tbody);
+      }
+
       $("btnLoad").onclick = load;
       $("btnSave").onclick = async () => {
         try {
@@ -75,7 +172,51 @@
         }
       };
 
+      $("adminKey").value = localStorage.getItem("adminKey") || "";
+      $("adminKey").addEventListener("change", () => setAdminKey($("adminKey").value));
+
+      $("btnGenerate").onclick = async () => {
+        try {
+          $("status").textContent = "生成中…";
+          const state = await api("GET", "/api/state");
+          const out = await api("POST", "/api/generate");
+          renderPreviewTable(state, out.schedule);
+          $("previewRaw").textContent = JSON.stringify(out.schedule, null, 2);
+          $("status").textContent = "已生成（預覽見下方）";
+        } catch (e) {
+          $("status").textContent = "生成失敗（Admin Key 可能唔啱）";
+          console.error(e);
+        }
+      };
+
+      $("btnToggleRaw").onclick = () => {
+        const raw = $("previewRaw");
+        const isHidden = raw.classList.contains("hidden");
+        raw.classList.toggle("hidden", !isHidden);
+        $("btnToggleRaw").textContent = isHidden ? "隱藏原始 JSON" : "顯示原始 JSON";
+      };
+
+      $("btnExport").onclick = async () => {
+        try {
+          const adminKey = getAdminKey();
+          const res = await fetch("/api/export.xlsx", {
+            headers: adminKey ? { "x-admin-key": adminKey } : {}
+          });
+          if (!res.ok) throw new Error(await res.text());
+          const blob = await res.blob();
+          const a = document.createElement("a");
+          a.href = URL.createObjectURL(blob);
+          a.download = "排課結果_demo.xlsx";
+          a.click();
+          URL.revokeObjectURL(a.href);
+        } catch (e) {
+          $("status").textContent = "下載失敗（Admin Key 可能唔啱）";
+          console.error(e);
+        }
+      };
+
       load();
+      renderPreviewTable({ classes: [] }, null);
     </script>
   </body>
 </html>
